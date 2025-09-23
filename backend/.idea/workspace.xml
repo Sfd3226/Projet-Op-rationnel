@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="2eff4018-dde0-4cfb-aaf9-da483c573176" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/backend.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/transfert-argent/receipts/RC17572025184988f02dbaf.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/transfert-argent/receipts/RC20250906235722143DA7.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/transfert-argent/receipts/RC2025090701201659D5A2.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/transfert-argent/receipts/RC20250907013258C9215E.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/transfert-argent/receipts/RC20250907020746114D95.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/transfert-argent/receipts/RC202509070248439656C1.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/transfert-argent/receipts/RC20250907033907C434FF.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/transfert-argent/receipts/RC2025090719270946C9B0.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/transfert-argent/receipts/RC202509071927338266E8.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/transfert-argent/receipts/RC20250907192735650778.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/transfert-argent/receipts/RC2025090719273791089A.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/transfert-argent/receipts/RC20250907192806B89CF3.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/transfert-argent/receipts/RC20250907192825FC1F82.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/transfert-argent/receipts/RC2025090719283867D745.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/transfert-argent/receipts/RC20250907192851BF0BFB.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/transfert-argent/receipts/RC20250907192901A64A0F.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/transfert-argent/receipts/RC202509071937444E9CB5.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/transfert-argent/receipts/RC20250907193757BD3D48.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/transfert-argent/receipts/RC2025090719400916C9A6.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/transfert-argent/receipts/RC20250907194011F6A6AE.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/transfert-argent/receipts/RC20250907194025F3021D.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/transfert-argent/receipts/RC20250907194029B6C6ED.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/transfert-argent/receipts/RC2025090719442055AE49.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/transfert-argent/receipts/RC20250907194444A6BA63.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/transfert-argent/receipts/RC202509071946147AAFF9.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/transfert-argent/receipts/RC202509071946212ECE9B.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/transfert-argent/receipts/RC20250907201227B4068A.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/transfert-argent/receipts/RC202509080241461541EA.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/transfert-argent/receipts/RC20250908154902B1B3EB.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/transfert-argent/receipts/RC20250910154417907CF6.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/transfert-argent/receipts/RC20250911022439D1334C.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/transfert-argent/receipts/RC202509110322452EBACB.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/transfert-argent/receipts/RC20250912223958D43CC6.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/transfert-argent/receipts/RC202509122245326C7BEE.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/transfert-argent/receipts/RC2025091223113287EF8E.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/transfert-argent/receipts/RC20250916153501DE591B.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/transfert-argent/receipts/RC202509181422540ED872.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/transfert-argent/receipts/RC2025091919023894B232.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/transfert-argent/receipts/RC20250922013732C0B211.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/transfert-argent/receipts/RC20250922020512AA90C9.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/transfert-argent/receipts/RC2025092202065749E3E1.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/transfert-argent/receipts/RC20250922232610035CF4.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/transfert-argent/receipts/RC202509222333296F5A64.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/transfert-argent/src/main/java/com/transfert/transfertargent/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/transfert-argent/src/main/java/com/transfert/transfertargent/config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/transfert-argent/src/main/java/com/transfert/transfertargent/controllers/FileController.java" beforeDir="false" afterPath="$PROJECT_DIR$/transfert-argent/src/main/java/com/transfert/transfertargent/controllers/FileController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/transfert-argent-frontend" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/transfert-argent-frontend" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 6
+}</component>
+  <component name="ProjectId" id="335CDyo0FOCTpanUNQSkF3LxtU6" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.TransfertArgentApplication.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true"
+  }
+}]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.25557.131" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="2eff4018-dde0-4cfb-aaf9-da483c573176" name="Changes" comment="" />
+      <created>1758597432649</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1758597432649</updated>
+    </task>
+    <servers />
+  </component>
+</project>

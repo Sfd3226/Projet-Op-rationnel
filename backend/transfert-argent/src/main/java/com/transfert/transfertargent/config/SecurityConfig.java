@@ -39,7 +39,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/admin/**").permitAll()
                         .requestMatchers("/api/files/**").permitAll()
                         .requestMatchers("/api/comptes/**").authenticated()
-                        .requestMatchers("/api/users/profile").authenticated()
+                        .requestMatchers("/api/users/profile").permitAll()
                         .requestMatchers("/api/users/password").authenticated()
                         .requestMatchers("/api/users/check-email").authenticated()// Ou authenticated selon le besoin
                         .requestMatchers("/api/users/check-telephone").authenticated() // Ou authenticated
