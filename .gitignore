@@ -1,0 +1,42 @@
+### Backend (Spring Boot)
+target/
+*.class
+*.jar
+*.war
+*.ear
+
+# Logs
+*.log
+
+# IDE / Tools
+*.iml
+.idea/
+.vscode/
+*.swp
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Config sensitive
+application.properties
+application.yml
+
+### Frontend (Angular)
+node_modules/
+dist/
+tmp/
+out-tsc/
+.angular/
+
+# Env files
+.env
+.env.local
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+### Receipts (générés)
+backend/transfert-argent/receipts/
