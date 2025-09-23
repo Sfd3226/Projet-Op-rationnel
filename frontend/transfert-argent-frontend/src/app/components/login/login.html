@@ -1,0 +1,46 @@
+<!-- Background Particules -->
+<canvas id="nebula-bg" class="nebula-canvas"></canvas>
+
+<div class="center-wrap">
+  <div class="card login-card">
+    <div class="card-glow"></div>
+    <header class="card-head">
+      <h1 class="title">Se connecter</h1>
+      <p class="subtitle">Accède à ton espace — rapide et sécurisé</p>
+    </header>
+
+    <div class="alert alert-error" *ngIf="message">{{ message }}</div>
+
+    <form [formGroup]="loginForm" (ngSubmit)="submit()" class="form">
+      <label class="field">
+        <span class="label-text">Téléphone</span>
+        <input type="text" formControlName="telephone" placeholder="778889999" aria-label="Téléphone" />
+        <small class="error" *ngIf="telephone?.invalid && (telephone?.touched || telephone?.dirty)">
+          <span *ngIf="telephone?.errors?.['required']">Téléphone requis</span>
+          <span *ngIf="telephone?.errors?.['pattern']">Format invalide</span>
+        </small>
+      </label>
+
+      <label class="field">
+        <span class="label-text">Mot de passe</span>
+        <input type="password" formControlName="password" placeholder="••••••••" aria-label="Mot de passe" />
+        <small class="error" *ngIf="password?.invalid && (password?.touched || password?.dirty)">
+          <span *ngIf="password?.errors?.['required']">Mot de passe requis</span>
+          <span *ngIf="password?.errors?.['minlength']">6 caractères minimum</span>
+        </small>
+      </label>
+
+      <div class="actions">
+        <button class="btn btn-primary" type="submit" [disabled]="loading">
+          <span *ngIf="!loading">Se connecter</span>
+          <span *ngIf="loading">Connexion…</span>
+        </button>
+      </div>
+    </form>
+
+    <footer class="card-foot">
+      <a [routerLink]="['/register']" class="link">Créer un compte</a>
+      <a routerLink="/forgot-password" class="link">Mot de passe oublié ?</a>
+    </footer>
+  </div>
+</div>

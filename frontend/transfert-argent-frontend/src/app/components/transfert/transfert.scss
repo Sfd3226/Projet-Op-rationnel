@@ -1,0 +1,246 @@
+/* Dashboard Ultime 3.0 */
+:root {
+  --bg-900: #050510;
+  --card-bg: rgba(26, 27, 44, 0.6);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --accent: #22c55e;
+  --accent-2: #06b6d4;
+  --accent-3: #facc15;
+}
+
+/* Fond nébuleuse animé */
+.nebula-canvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: -1;
+  background: radial-gradient(ellipse at center, #0a0a1a, #050510);
+}
+
+/* Dashboard Container: Adapting to the new layout */
+.dashboard-container {
+  /* Keep these styles */
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  color: var(--text-light);
+}
+
+
+/* ===================
+   🃏 Carte centrale
+   =================== */
+.center-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 2rem 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+.transfert-card {
+  position: relative;
+  background: var(--card-bg);
+  border-radius: 1.5rem;
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(20px);
+  padding: 2rem;
+  width: 100%;
+  max-width: 480px;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4);
+  color: white;
+  font-family: 'Inter', sans-serif;
+  overflow: hidden;
+}
+
+.transfert-card .card-glow {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(circle at top left, rgba(34,197,94,0.3), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: -1;
+}
+
+.transfert-card:hover .card-glow {
+  opacity: 1;
+}
+
+/* ===================
+   📌 Header de la carte
+   =================== */
+.card-head {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.card-head .title {
+  font-size: 1.8rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+}
+
+.card-head .subtitle {
+  font-size: 0.9rem;
+  color: #aaa;
+}
+
+/* ===================
+   ⚠️ Alertes
+   =================== */
+.alert {
+  border-radius: 0.75rem;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.alert-error {
+  background: rgba(255, 0, 0, 0.1);
+  border: 1px solid rgba(255, 0, 0, 0.3);
+  color: #ff4d4f;
+}
+
+.alert-success {
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  color: #22c55e;
+}
+
+/* ===================
+   📝 Formulaire
+   =================== */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.label-text {
+  font-size: 0.9rem;
+  color: #aaa;
+}
+
+input[type="text"],
+input[type="number"] {
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.05);
+  color: white;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+input:focus {
+  border-color: var(--accent-2);
+  box-shadow: 0 0 10px rgba(6,182,212,0.5);
+}
+
+.error {
+  font-size: 0.8rem;
+  color: #f87171;
+}
+
+/* ===================
+   💰 Calcul dynamique
+   =================== */
+.calcul-details {
+  margin-top: 1rem;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  padding-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.detail-line {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: #ddd;
+}
+
+.detail-line.total {
+  font-weight: bold;
+  color: var(--accent-2);
+}
+
+/* ===================
+   🔘 Bouton
+   =================== */
+.actions {
+  margin-top: 1.5rem;
+}
+
+.btn {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-weight: bold;
+  border-radius: 1rem;
+  cursor: pointer;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.btn-primary {
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  color: white;
+  box-shadow: 0 0 10px rgba(34, 197, 94, 0.6);
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-primary:hover:not(:disabled) {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 0 20px rgba(34,197,94,0.8);
+}
+
+/* ===================
+   🔙 Footer
+   =================== */
+.card-foot {
+  margin-top: 1.5rem;
+  text-align: center;
+}
+
+.card-foot .link {
+  color: var(--accent-2);
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+.card-foot .link:hover {
+  text-decoration: underline;
+}
+
+/* ===================
+   📱 Responsive
+   =================== */
+@media (max-width: 500px) {
+  .transfert-card {
+    padding: 1.5rem;
+  }
+  .card-head .title {
+    font-size: 1.5rem;
+  }
+}

@@ -1,0 +1,94 @@
+<div class="admin-content">
+  <h2>Retraits - Administration</h2>
+
+  <!-- Messages succès / erreur -->
+  <div *ngIf="successMessage" class="alert alert-success">{{ successMessage }}</div>
+  <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+
+  <!-- Formulaire Retrait -->
+  <div class="operation-form">
+    <h3>Effectuer un retrait</h3>
+    <form (ngSubmit)="effectuerRetrait()">
+      <div class="form-group">
+        <label for="compte">Compte</label>
+        <input type="number" id="compte" [(ngModel)]="operationCompteId" name="compte"
+               class="form-control" placeholder="ID du compte" required>
+      </div>
+      <div class="form-group">
+        <label for="montant">Montant</label>
+        <input type="number" id="montant" [(ngModel)]="operationMontant" name="montant"
+               class="form-control" placeholder="Montant à retirer" required>
+      </div>
+      <div class="form-group">
+        <label for="motif">Motif</label>
+        <input type="text" id="motif" [(ngModel)]="operationMotif" name="motif"
+               class="form-control" placeholder="Motif (facultatif)">
+      </div>
+      <button type="submit" class="btn btn-primary">Retirer</button>
+    </form>
+  </div>
+
+  <hr>
+
+  <!-- Recherche -->
+  <div class="filter-bar">
+    <input type="text" [(ngModel)]="searchTerm" (ngModelChange)="onSearchChange()"
+           placeholder="Rechercher par ID ou numéro de téléphone..." class="form-control">
+  </div>
+
+  <!-- Tableau des transactions -->
+  <div class="table-responsive mt-3">
+    <table class="table table-bordered table-hover">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Compte Source</th>
+          <th>Montant</th>
+          <th>Frais</th>
+          <th>Date</th>
+          <th>Statut</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let tx of filteredTransactions">
+          <td>{{ tx.id }}</td>
+          <td>{{ tx.compteSource?.numeroTelephone || 'N/A' }}</td>
+          <td>{{ formatCurrency(tx.montant) }}</td>
+          <td>{{ formatCurrency(tx.frais) }}</td>
+          <td>{{ tx.dateTransaction | date:'short' }}</td>
+          <td>
+            <span [ngClass]="getStatusBadgeClass(tx.statut)" class="badge">{{ tx.statut }}</span>
+          </td>
+          <td>
+            <button class="btn btn-sm btn-danger" (click)="annulerTransaction(tx.id)">
+              Annuler
+            </button>
+            <button *ngIf="tx.numeroReceipt" class="btn btn-sm btn-info"
+                    (click)="downloadReceipt(tx.numeroReceipt, tx.id)">
+              Reçu
+            </button>
+          </td>
+        </tr>
+        <tr *ngIf="filteredTransactions.length === 0">
+          <td colspan="7" class="text-center">Aucune transaction trouvée</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Pagination -->
+  <nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+      <li class="page-item" [class.disabled]="currentPage===0">
+        <a class="page-link" (click)="changePage(currentPage - 1)">Précédent</a>
+      </li>
+      <li class="page-item" *ngFor="let page of getPages()" [class.active]="page===currentPage">
+        <a class="page-link" (click)="changePage(page)">{{ page + 1 }}</a>
+      </li>
+      <li class="page-item" [class.disabled]="currentPage >= totalPages - 1">
+        <a class="page-link" (click)="changePage(currentPage + 1)">Suivant</a>
+      </li>
+    </ul>
+  </nav>
+</div>

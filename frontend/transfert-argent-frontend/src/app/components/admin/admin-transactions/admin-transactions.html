@@ -1,0 +1,127 @@
+<div class="admin-transactions-container">
+  <div class="page-header">
+    <h1>Gestion des Transactions</h1>
+  </div>
+
+  <!-- ✅ Messages -->
+  <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+  <div *ngIf="successMessage" class="alert alert-success">{{ successMessage }}</div>
+
+<div class="card">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <!-- ✅ Filtres -->
+    <div class="filters-actions">
+      <div class="search-box">
+        <input type="text" class="form-control" placeholder="🔍 Recherche..."
+               [(ngModel)]="searchTerm" (input)="onSearchChange()">
+      </div>
+
+      <div class="filter-controls">
+        <select class="form-select" [(ngModel)]="selectedStatus" (change)="onStatusChange()">
+          <option value="ALL">Tous statuts</option>
+          <option value="SUCCES">Succès</option>
+          <option value="ECHEC">Échec</option>
+          <option value="EN_ATTENTE">En attente</option>
+        </select>
+
+        <select class="form-select" [(ngModel)]="selectedType" (change)="onTypeChange()">
+          <option value="ALL">Tous types</option>
+          <option value="DÉPÔT">Dépôt</option>
+          <option value="RETRAIT">Retrait</option>
+          <option value="TRANSFERT">Transfert</option>
+        </select>
+
+        <input type="date" class="form-control" [(ngModel)]="startDate" (change)="onDateChange()">
+        <input type="date" class="form-control" [(ngModel)]="endDate" (change)="onDateChange()">
+      </div>
+
+      <div class="action-buttons">
+        <button class="btn btn-success">✔ Appliquer</button>
+        <button class="btn btn-primary">↻ Réinitialiser</button>
+      </div>
+    </div>
+  
+ 
+
+
+    <div class="card-body">
+      <!-- ✅ Loading -->
+      <div *ngIf="loading" class="text-center">Chargement...</div>
+
+      <!-- ✅ Pas de transactions -->
+      <div *ngIf="!loading && filteredTransactions.length === 0" class="text-center">
+        Aucune transaction trouvée.
+      </div>
+
+      <!-- ✅ Table -->
+      <div *ngIf="!loading && filteredTransactions.length > 0" class="table-responsive">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Type</th>
+              <th>Montant</th>
+              <th>Frais</th>
+              <th>Compte Source</th>
+              <th>Compte Destination</th>
+              <th>Statut</th>
+              <th>Date</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let tx of filteredTransactions">
+              <td>{{ tx.id }}</td>
+              <td>
+                <span class="badge" [ngClass]="getTypeBadgeClass(tx.type)">
+                  {{ tx.type }}
+                </span>
+              </td>
+              <td>{{ formatCurrency(tx.montant) }}</td>
+              <td>{{ formatCurrency(tx.frais) }}</td>
+              <td>{{ tx.compteSource?.numeroTelephone || 'N/A' }}</td>
+              <td>{{ tx.compteDestination?.numeroTelephone || 'N/A' }}</td>
+              <td>
+                <span class="badge" [ngClass]="getStatusBadgeClass(tx.statut)">
+                  {{ tx.statut }}
+                </span>
+              </td>
+              <td>{{ tx.dateTransaction | date:'dd/MM/yyyy HH:mm' }}</td>
+              <td>
+                <button class="btn btn-sm btn-danger me-1"
+                        (click)="annulerTransaction(tx.id)">
+                  Annuler
+                </button>
+                <button *ngIf="tx.numeroReceipt"
+                        class="btn btn-sm btn-secondary"
+                        (click)="downloadReceipt(tx)">
+                  Reçu
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- ✅ Pagination -->
+      <nav *ngIf="totalPages > 1" class="mt-3">
+        <ul class="pagination justify-content-center">
+          <li class="page-item" [class.disabled]="currentPage===0">
+            <a class="page-link" (click)="changePage(currentPage-1)">Précédent</a>
+          </li>
+          <li class="page-item" *ngFor="let page of getPages()" [class.active]="page===currentPage">
+            <a class="page-link" (click)="changePage(page)">{{ page + 1 }}</a>
+          </li>
+          <li class="page-item" [class.disabled]="currentPage===totalPages-1">
+            <a class="page-link" (click)="changePage(currentPage+1)">Suivant</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+
+  
+       
+      </div>
+    </div>
+  

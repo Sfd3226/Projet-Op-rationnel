@@ -1,0 +1,363 @@
+/* =========================================================================
+   Styles pour le composant Admin Transactions
+   ========================================================================= */
+
+.admin-transactions-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 30px;
+}
+
+.card {
+  background: linear-gradient(145deg, #1a1b2c, #10111d);
+  border-radius: 1.2rem;
+  box-shadow: 0 0 25px rgba(34,197,94,0.15), inset 0 0 10px rgba(255,255,255,0.05);
+  color: #fff;
+  overflow: hidden;
+}
+
+.card-header {
+  padding: 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(12px);
+}
+
+.card-body {
+  padding: 1.8rem;
+}
+
+/* --- Section filtres et actions --- */
+.filters-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.2rem;
+  width: 100%;
+}
+
+/* ✅ Barre de recherche */
+.search-box {
+  flex: 1 1 250px;
+  min-width: 250px;
+}
+
+.search-box .form-control {
+  background: #11121f;
+  border: 1px solid rgba(34,197,94,0.5);
+  color: #fff;
+  border-radius: 0.6rem;
+  padding: 0.75rem 1rem;
+  transition: all 0.3s ease;
+}
+.search-box .form-control:focus {
+  border-color: #22c55e;
+  box-shadow: 0 0 12px rgba(34,197,94,0.5);
+  background: #16172a;
+}
+
+/* ✅ Filtres */
+.filter-controls {
+  display: flex;
+  flex: 2 1 auto;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.filter-controls .form-select,
+.filter-controls .form-control {
+  background: #11121f;
+  border: 1px solid rgba(255,255,255,0.1);
+  color: #fff;
+  border-radius: 0.6rem;
+  padding: 0.6rem 1rem;
+  min-width: 150px;
+  transition: all 0.3s ease;
+}
+.filter-controls .form-select:focus,
+.filter-controls .form-control:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 10px rgba(59,130,246,0.5);
+  background: #16172a;
+}
+
+/* ✅ Boutons */
+.action-buttons {
+  display: flex;
+  gap: 1rem;
+  flex-shrink: 0;
+}
+
+.action-buttons .btn {
+  padding: 0.8rem 1.4rem;
+  border-radius: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  border: none;
+  transition: all 0.3s ease;
+}
+.action-buttons .btn-success {
+  background: linear-gradient(135deg, #16a34a, #22c55e);
+  color: #fff;
+}
+.action-buttons .btn-success:hover {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  box-shadow: 0 0 12px rgba(34,197,94,0.5);
+}
+.action-buttons .btn-primary {
+  background: linear-gradient(135deg, #2563eb, #3b82f6);
+  color: #fff;
+}
+.action-buttons .btn-primary:hover {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  box-shadow: 0 0 12px rgba(59,130,246,0.5);
+}
+
+
+/* --- États de chargement et d'absence de données --- */
+.loading-spinner, .empty-state {
+  text-align: center;
+  padding: 40px;
+  color: rgba(255, 255, 255, 0.6);
+  
+  i {
+    margin-bottom: 15px;
+    color: #6c757d;
+  }
+  
+  h3 {
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+  }
+}
+
+/* --- Tableau des transactions --- */
+.table-responsive {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  color: #fff;
+  border-collapse: collapse;
+
+  th, td {
+    padding: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  th {
+    background-color: #11121f;
+    font-weight: 600;
+  }
+
+  tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+}
+
+/* --- Badges de statut et de type --- */
+.badge {
+  display: inline-block;
+  padding: 0.4em 0.8em;
+  font-size: 0.8em;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 0.25rem;
+  color: #fff;
+  
+  &.badge-success { background-color: #22c55e; }
+  &.badge-danger { background-color: #ef4444; }
+  &.badge-warning { background-color: #f59e0b; }
+  &.badge-info { background-color: #06b6d4; }
+  &.badge-primary { background-color: #3b82f6; }
+  &.badge-secondary { background-color: #6b7280; }
+}
+
+/* --- Pagination --- */
+.pagination-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+  
+  .pagination {
+    margin: 0;
+    
+    .page-item {
+      .page-link {
+        background: #11121f;
+        border: 1px solid #333;
+        color: #fff;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        &:hover { background-color: #22233f; }
+      }
+      &.active .page-link {
+        background-color: #22c55e;
+        border-color: #22c55e;
+      }
+      &.disabled .page-link {
+        color: #6c757d;
+        pointer-events: none;
+      }
+    }
+  }
+  
+  .pagination-info {
+    font-size: 0.9em;
+    color: rgba(255, 255, 255, 0.6);
+  }
+}
+/* ===================== MODALE DEPOT / RETRAIT ===================== */
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+
+  .form-group {
+    position: relative;
+
+    .icon {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.2rem;
+      color: #888;
+      transition: color 0.3s ease;
+    }
+
+    .form-control {
+      width: 100%;
+      background: #11121f;
+      border: 1px solid #444;
+      border-radius: 0.6rem;
+      padding: 0.85rem 1rem 0.85rem 2.8rem;
+      color: #fff;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+
+      &::placeholder {
+        color: #777;
+      }
+
+      &:hover {
+        border-color: #555;
+      }
+
+      &:focus {
+        border-color: #22c55e;
+        box-shadow: 0 0 8px rgba(34, 197, 94, 0.4);
+
+        ~ .icon {
+          color: #22c55e;
+        }
+      }
+    }
+
+    textarea.form-control {
+      min-height: 100px;
+      resize: none;
+      padding-left: 1rem; // pas d’icône ici
+    }
+  }
+}
+
+/* Boutons de la modale */
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+
+  .btn {
+    padding: 0.8rem 1.5rem;
+    border-radius: 0.6rem;
+    font-weight: 600;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 10px rgba(255,255,255,0.15);
+    }
+
+    &.btn-success {
+      background: linear-gradient(135deg, #16a34a, #22c55e);
+      border: none;
+      color: #fff;
+    }
+
+    &.btn-primary {
+      background: linear-gradient(135deg, #2563eb, #3b82f6);
+      border: none;
+      color: #fff;
+    }
+
+    &.btn-secondary {
+      background: #444;
+      border: none;
+      color: #eee;
+    } 
+
+
+    
+    // Conteneur pour l'icône et le champ de saisie
+    .input-container {
+      position: relative;
+    }
+    
+    // Style de l'icône
+    .icon {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #777;
+      transition: color 0.3s ease;
+    }
+
+    .form-control, .form-select {
+      background: #11121f;
+      border: 1px solid #444;
+      color: #fff;
+      padding: 0.75rem 1rem;
+      padding-left: 2.5rem; // Espace à gauche pour l'icône
+      border-radius: 0.5rem;
+      transition: all 0.3s ease;
+      
+      &::placeholder {
+        color: #888;
+      }
+      
+      &:hover {
+        border-color: #555;
+        box-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
+      }
+
+      &:focus {
+        background: #11121f;
+        border-color: #22c55e;
+        box-shadow: 0 0 10px rgba(34,197,94,0.5);
+        
+        // Change la couleur de l'icône au focus
+        ~ .icon {
+          color: #22c55e;
+        }
+      }
+    }
+
+    // Cas spécifique pour la zone de texte sans icône
+    textarea.form-control {
+      padding-left: 1rem;
+    }
+  }
+  
+  .modal-footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+}

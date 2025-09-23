@@ -1,0 +1,89 @@
+<div class="admin-depot-container">
+  <div class="page-header">
+    <h1>Dépôt Admin</h1>
+  </div>
+
+  <!-- Messages -->
+  <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+  <div *ngIf="successMessage" class="alert alert-success">{{ successMessage }}</div>
+
+  <!-- Formulaire Dépôt -->
+  <div class="card mb-4">
+    <div class="card-header">
+      Effectuer un dépôt
+    </div>
+    <div class="card-body">
+      <form (ngSubmit)="effectuerDepot()">
+        <div class="mb-3">
+          <label>ID du compte</label>
+          <input type="number" class="form-control" [(ngModel)]="compteId" name="compteId" required>
+        </div>
+        <div class="mb-3">
+          <label>Montant</label>
+          <input type="number" class="form-control" [(ngModel)]="montant" name="montant" required>
+        </div>
+        <div class="mb-3">
+          <label>Motif (optionnel)</label>
+          <textarea class="form-control" [(ngModel)]="motif" name="motif"></textarea>
+        </div>
+        <button type="submit" class="btn btn-success" [disabled]="loading">
+          {{ loading ? 'Traitement...' : 'Effectuer le dépôt' }}
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Historique des dépôts -->
+  <div class="card">
+    <div class="card-header">
+      Historique des dépôts
+    </div>
+    <div class="card-body">
+      <div *ngIf="loading" class="text-center">Chargement...</div>
+
+      <div *ngIf="!loading && transactions.length === 0" class="text-center">
+        Aucun dépôt trouvé.
+      </div>
+
+      <div *ngIf="!loading && transactions.length > 0" class="table-responsive">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Montant</th>
+              <th>Compte Destination</th>
+              <th>Statut</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let tx of transactions">
+              <td>{{ tx.id }}</td>
+              <td>{{ formatCurrency(tx.montant) }}</td>
+              <td>{{ tx.compteDestination?.numeroTelephone || 'N/A' }}</td>
+              <td>
+                <span class="badge"
+                      [ngClass]="tx.statut==='SUCCES'?'badge-success':tx.statut==='ECHEC'?'badge-danger':'badge-warning'">
+                  {{ tx.statut }}
+                </span>
+              </td>
+              <td>{{ tx.dateTransaction | date:'dd/MM/yyyy HH:mm' }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pagination simple -->
+      <nav *ngIf="transactions.length > 0" class="mt-3">
+        <ul class="pagination justify-content-center">
+          <li class="page-item" [class.disabled]="currentPage===0">
+            <a class="page-link" (click)="currentPage>0 && loadTransactions()">Précédent</a>
+          </li>
+          <li class="page-item" [class.disabled]="transactions.length < 10">
+            <a class="page-link" (click)="transactions.length>=10 && loadTransactions()">Suivant</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>

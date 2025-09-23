@@ -1,0 +1,215 @@
+<canvas id="nebula-bg" class="nebula-canvas"></canvas>
+
+<div class="dashboard-container">
+  <div class="dashboard-header">
+    <div class="user-info">
+      <div class="user-details">
+        <h1>Historique de vos transactions</h1>
+        <p>Gérez et consultez tous vos mouvements d'argent</p>
+      </div>
+    </div>
+    <button class="logout-btn" (click)="logout()">🚪 Déconnexion</button>
+  </div>
+
+  <div class="loading" *ngIf="loading">
+    <div class="loading-spinner"></div>
+    <p>Chargement de l'historique...</p>
+  </div>
+
+  <div class="alert alert-error" *ngIf="errorMessage">
+    {{ errorMessage }}
+    <button class="alert-close" (click)="errorMessage = ''">×</button>
+  </div>
+ <div class="profile-content" *ngIf="!loading && transactions.length > 0">
+  <div class="card filter-card">
+    <div class="card-glow"></div>
+    <div class="filter-controls">
+
+      <!-- Recherche -->
+      <div class="filter-group">
+        <label class="filter-label">Rechercher</label>
+        <div class="input-icon">
+          <svg class="icon" viewBox="0 0 24 24">
+            <path d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1 0 4.5 4.5a7.5 7.5 0 0 0 12.15 12.15z" 
+                  stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
+          </svg>
+          <input type="text" [(ngModel)]="searchTerm" (input)="applyFilters()" placeholder="Numéro, montant..." />
+        </div>
+      </div>
+
+      <!-- Statut -->
+      <div class="filter-group">
+        <label class="filter-label">Statut</label>
+        <div class="input-icon">
+          <svg class="icon" viewBox="0 0 24 24">
+            <path d="M13 2L3 14h9l-1 8 10-12h-9z" 
+                  stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
+          </svg>
+          <select [(ngModel)]="statutFilter" (change)="applyFilters()">
+            <option value="">Tous les statuts</option>
+            <option value="SUCCES">Succès</option>
+            <option value="ECHEC">Échec</option>
+            <option value="EN_COURS">En cours</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Dates -->
+      <div class="filter-group date-group">
+        <div class="date-field">
+          <label class="filter-label">Du</label>
+          <div class="input-icon">
+            <svg class="icon" viewBox="0 0 24 24">
+              <path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 0 0 2-2V7H3v12a2 2 0 0 0 2 2z" 
+                    stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
+            </svg>
+            <input type="date" [(ngModel)]="dateDebut" (change)="applyFilters()" />
+          </div>
+        </div>
+        <div class="date-field">
+          <label class="filter-label">Au</label>
+          <div class="input-icon">
+            <svg class="icon" viewBox="0 0 24 24">
+              <path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 0 0 2-2V7H3v12a2 2 0 0 0 2 2z" 
+                    stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
+            </svg>
+            <input type="date" [(ngModel)]="dateFin" (change)="applyFilters()" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Reset -->
+      <button class="btn btn-secondary reset-btn" (click)="resetFilters()">
+        <svg class="icon" viewBox="0 0 24 24">
+          <path d="M4 4v6h6M20 20v-6h-6M4 20v-6h6M20 4v6h-6" 
+                stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
+        </svg>
+        Réinitialiser
+      </button>
+    </div>
+  </div>
+</div>
+
+
+<div class="filter-tabs">
+  <button 
+    class="tab-btn" 
+    [class.active]="currentFilter === 'all'" 
+    (click)="setFilter('all')"
+  >
+    <svg viewBox="0 0 24 24" class="icon">
+      <path d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 0v4m0 12v4m8-8h4m-20 0H2m14.14-5.86l2.83-2.83m-12 12l2.83-2.83" />
+    </svg>
+    Tout
+  </button>
+
+  <button 
+    class="tab-btn" 
+    [class.active]="currentFilter === 'sent'" 
+    (click)="setFilter('sent')"
+  >
+    <svg viewBox="0 0 24 24" class="icon">
+      <path d="M4 4l16 8-16 8V12h9" />
+    </svg>
+    Envoyé
+  </button>
+
+  <button 
+    class="tab-btn" 
+    [class.active]="currentFilter === 'received'" 
+    (click)="setFilter('received')"
+  >
+    <svg viewBox="0 0 24 24" class="icon">
+      <path d="M20 4l-16 8 16 8V12h-9" />
+    </svg>
+    Reçu
+  </button>
+</div>
+
+    <div class="transaction-list">
+      <div class="card transaction-item" *ngFor="let transaction of filteredTransactions">
+        <div class="card-glow"></div>
+        <div class="transaction-icon">
+          <span *ngIf="transaction.type === 'ENVOI'">💸</span>
+          <span *ngIf="transaction.type === 'RECEPTION'">📥</span>
+        </div>
+        <div class="transaction-details">
+          <div class="transaction-header">
+            <span class="transaction-type">
+              {{ transaction.type === 'ENVOI' ? 'Envoyé à' : 'Reçu de' }}
+            </span>
+            <span class="transaction-date">{{ formatDate(transaction.dateTransaction) }}</span>
+          </div>
+          <div class="transaction-info">
+            <span class="transaction-party">
+              {{ transaction.type === 'ENVOI' ? transaction.compteDestinationNumero : transaction.compteSourceNumero }}
+            </span>
+          </div>
+          <div class="transaction-amounts">
+            <span class="amount">{{ formatMontant(transaction.montant) }}</span>
+            <span *ngIf="transaction.frais > 0" class="fees">+ frais: {{ formatMontant(transaction.frais) }}</span>
+          </div>
+       <div class="transaction-footer">
+  <span class="status status-succes" *ngIf="transaction.statut === 'SUCCES'">
+    <svg viewBox="0 0 24 24" class="icon">
+      <path d="M5 13l4 4L19 7" />
+    </svg>
+    Succès
+  </span>
+
+  <span class="status status-echec" *ngIf="transaction.statut === 'ECHEC'">
+    <svg viewBox="0 0 24 24" class="icon">
+      <path d="M6 18L18 6M6 6l12 12" />
+    </svg>
+    Échec
+  </span>
+
+  <span class="status status-en_cours" *ngIf="transaction.statut === 'EN_COURS'">
+    <svg viewBox="0 0 24 24" class="icon">
+      <circle cx="12" cy="12" r="10" stroke-width="2" fill="none"/>
+      <path d="M12 6v6l4 2" />
+    </svg>
+    En cours
+  </span>
+
+  <button 
+    *ngIf="transaction.statut === 'SUCCES'"
+    (click)="downloadReceipt(transaction)"
+    class="btn btn-receipt"
+  >
+    <svg viewBox="0 0 24 24" class="icon">
+      <path d="M12 16l-4-4h3V4h2v8h3l-4 4z" />
+      <path d="M20 20H4v-2h16v2z" />
+    </svg>
+    Télécharger le reçu
+  </button>
+
+<!-- Rembourser ou message -->
+  <ng-container *ngIf="transaction.statut === 'ECHEC'">
+    <button (click)="rembourserTransaction(transaction)" class="btn btn-refund">
+      Rembourser
+    </button>
+  </ng-container>
+
+  <span *ngIf="transaction.statut === 'ANNULE'" class="text-refund">
+    Transaction annulée par l'administrateur
+  </span>
+</div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="no-results" *ngIf="filteredTransactions.length === 0">
+      <p>Aucune transaction trouvée.</p>
+    </div>
+  
+  
+  <div class="no-transactions" *ngIf="!loading && transactions.length === 0">
+    <div class="card empty-card">
+      <div class="card-glow"></div>
+      <h3>Historique vide</h3>
+      <p>Commencez par un <a [routerLink]="['/transfert']" class="link-btn">transfert</a> pour voir vos transactions.</p>
+    </div>
+  </div>

@@ -1,0 +1,273 @@
+/* ================== VARIABLES GLOBALES ================== */
+$bg-900: #050510;
+$card-bg: rgba(26,27,44,0.56);
+$glass-border: rgba(255,255,255,0.06);
+$accent: #22c55e;
+$accent-2: #06b6d4;
+$accent-3: #facc15;
+$text-light: #e5e7eb;
+$text-dim: #9ca3af;
+$danger: #ef4444;
+
+:root {
+  --bg-900: #{$bg-900};
+  --card-bg: #{$card-bg};
+  --glass-border: #{$glass-border};
+  --accent: #{$accent};
+  --accent-2: #{$accent-2};
+  --accent-3: #{$accent-3};
+  --text-light: #{$text-light};
+  --text-dim: #{$text-dim};
+}
+
+/* ================== GESTION DU LAYOUT ET FOND ================== */
+
+/* Fond nébuleuse animé */
+.nebula-canvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background: radial-gradient(ellipse at center, #0a0a1a, $bg-900);
+}
+
+/* Conteneur principal */
+.dashboard-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  color: var(--text-light);
+}
+
+/* ================== COMPOSANTS DE L'INTERFACE ================== */
+
+/* HEADER */
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.user-avatar {
+  position: relative;
+  width: 64px; height: 64px;
+  .avatar-image {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid $accent;
+    box-shadow: 0 8px 30px rgba(2,6,23,0.6);
+    transition: transform .3s, box-shadow .3s;
+    &:hover {
+      transform: scale(1.05);
+      box-shadow: 0 12px 40px rgba(34,197,94,0.35);
+    }
+  }
+  .avatar-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0,0,0,0.4);
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity .25s ease;
+    cursor: pointer;
+  }
+  &:hover .avatar-overlay { opacity: 1; }
+  .edit-icon { font-size: 18px; color: #fff; }
+}
+
+/* BOUTONS */
+.logout-btn, .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  padding: .6rem 1rem;
+  border-radius: .6rem;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  transition: transform .2s, box-shadow .3s;
+}
+.logout-btn { 
+  background: linear-gradient(180deg,#ef4444,#dc2626); 
+  color: #fff; 
+  &:hover { 
+    transform: translateY(-3px); 
+    box-shadow: 0 12px 25px rgba(255,0,0,0.35); 
+  }
+}
+.btn-primary { 
+  background: linear-gradient(90deg,$accent,#10b981); 
+  color: #fff; 
+  &:hover { 
+    transform: translateY(-3px); 
+    box-shadow: 0 18px 40px rgba(34,197,94,0.12); 
+  }
+}
+.btn-secondary { 
+  background: rgba(255,255,255,0.04); 
+  color: #fff; 
+  border: 1px solid rgba(255,255,255,0.03); 
+}
+.btn-outline { 
+  background: transparent; 
+  color: $accent; 
+  border: 1px solid $accent; 
+}
+
+/* ALERTES */
+.alert {
+  padding: .9rem;
+  border-radius: .6rem;
+  font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: .5rem;
+  &-error { background: #7f1d1d; color: #fff; }
+  &-success { background: #0f6f3a; color: #fff; }
+  &-close { 
+    background: transparent; 
+    border: none; 
+    color: inherit; 
+    font-size: 1.2rem; 
+    cursor: pointer; 
+  }
+}
+
+/* CHARGEMENT */
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .6rem;
+  &-spinner {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 5px solid rgba(255,255,255,0.08);
+    border-top-color: $accent;
+    animation: spin 1s linear infinite;
+  }
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ================== CARTES ET FORMULAIRES ================== */
+
+/* Cartes (générique) */
+.card {
+  position: relative;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  backdrop-filter: blur(12px);
+  overflow: hidden;
+  box-shadow: 0 8px 40px rgba(34,197,94,0.2);
+  color: #fff;
+  z-index: 1; /* Pour que le contenu soit au-dessus du glow */
+  &-glow {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    border-radius: inherit;
+    background: radial-gradient(circle at 30% 30%, rgba(34,197,94,0.15), transparent 60%),
+                radial-gradient(circle at 70% 70%, rgba(6,182,212,0.15), transparent 60%);
+    opacity: 0.8;
+    animation: cardGlow 6s infinite alternate ease-in-out;
+    z-index: 0;
+  }
+}
+@keyframes cardGlow { 
+  0%{ transform:scale(1); opacity:0.7; } 
+  100%{ transform:scale(1.05); opacity:1; } 
+}
+
+/* Formulaire */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
+  gap: 1rem;
+}
+.form-group { 
+  display: flex; 
+  flex-direction: column; 
+  gap: .35rem; 
+  label { 
+    font-weight: 600; 
+    color: rgba(255,255,255,0.85); 
+    font-size: .9rem; 
+  }
+  input {
+    padding: .75rem;
+    border-radius: .6rem;
+    border: 1px solid rgba(255,255,255,0.05);
+    background: rgba(8,9,14,0.6);
+    color: #fff;
+    font-size: .95rem;
+    transition: box-shadow .25s, border-color .25s;
+    &::placeholder { color: rgba(255,255,255,0.5); }
+    &:focus { 
+      outline: none; 
+      box-shadow: 0 0 8px 2px rgba(34,197,94,0.4); 
+      border-color: $accent; 
+    }
+  }
+  .error { 
+    color: #ff6b6b; 
+    font-size: .8rem; 
+    margin-top: .2rem; 
+  }
+}
+
+/* Affichage des informations */
+.info-grid { display: grid; gap: .9rem; }
+.info-item { 
+  display: flex; 
+  flex-direction: column; 
+  .info-label { 
+    color: rgba(255,255,255,0.6); 
+    font-size: .85rem; 
+  }
+  .info-value { 
+    color: #fff; 
+    font-weight: 600; 
+  }
+}
+
+/* Actions du formulaire et de la carte */
+.form-actions, .card-actions {
+  display: flex;
+  gap: .8rem;
+  margin-top: 1rem;
+  justify-content: flex-end;
+}
+
+/* ================== RÉACTIVITÉ ET ACCESSIBILITÉ ================== */
+
+@media (max-width:780px) {
+  .dashboard-header { 
+    flex-direction: column; 
+    align-items: flex-start; 
+    gap: .6rem; 
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-glow, .nebula-canvas { display: none !important; }
+  * { 
+    transition: none !important; 
+    animation: none !important; 
+  }
+}

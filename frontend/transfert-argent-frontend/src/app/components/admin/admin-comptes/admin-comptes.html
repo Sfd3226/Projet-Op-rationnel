@@ -1,0 +1,181 @@
+<div class="admin-comptes-container">
+  <div class="page-header">
+    <h1 class="page-title">Gestion des Comptes</h1>
+    <p>Gérez tous les comptes de la plateforme.</p>
+  </div>
+
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="successMessage" class="alert alert-success">
+    {{ successMessage }}
+  </div>
+
+  <div class="card-panel">
+    <div class="card-header">
+      <div class="filters">
+        <div class="search-box">
+          <input 
+            type="text" 
+            [(ngModel)]="searchTerm" 
+            (input)="onSearchChange()" 
+            placeholder="Rechercher un compte, utilisateur..."
+            class="form-control"
+          >
+        </div>
+        
+        <div class="filter-controls">
+          <select [(ngModel)]="selectedStatus" (change)="onStatusChange()" class="form-select">
+            <option value="ALL">Tous les statuts</option>
+            <option value="ACTIVE">Actif</option>
+            <option value="INACTIVE">Inactif</option>
+          </select>
+          
+          <select [(ngModel)]="selectedType" (change)="onTypeChange()" class="form-select">
+            <option value="ALL">Tous les types</option>
+            <option value="EPARGNE">Épargne</option>
+            <option value="COURANT">Courant</option>
+            <option value="BUSINESS">Business</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-body">
+      <div *ngIf="loading" class="loading-state">
+        <div class="loading-spinner"></div>
+        <p>Chargement des comptes...</p>
+      </div>
+
+      <div *ngIf="!loading && filteredComptes.length === 0" class="empty-state">
+        <i class="fas fa-wallet fa-3x"></i>
+        <h3>Aucun compte trouvé</h3>
+        <p>Aucun compte ne correspond à vos critères de recherche.</p>
+      </div>
+
+      <div *ngIf="!loading && filteredComptes.length > 0" class="table-responsive">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Numéro</th>
+              <th>Solde</th>
+              <th>Type</th>
+              <th>Propriétaire</th>
+              <th>Date création</th>
+              <th>Statut</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let compte of filteredComptes">
+              <td>#{{ compte.id }}</td>
+              <td>
+                <strong>{{ compte.numeroTelephone }}</strong>
+              </td>
+              <td>
+                <span class="solde" [class.negative-balance]="compte.solde < 0">
+                  {{ formatCurrency(compte.solde) }}
+                </span>
+              </td>
+              <td>
+                <span class="badge" [ngClass]="getTypeBadgeClass(compte.typeCompte)">
+                  {{ compte.typeCompte }}
+                </span>
+              </td>
+              <td>
+                <div class="user-info">
+                  <div class="user-name">{{ compte.user.prenom }} {{ compte.user.nom }}</div>
+                  <div class="user-phone">{{ compte.user.telephone }}</div>
+                </div>
+              </td>
+              <td>{{ formatDate(compte.dateCreation) }}</td>
+              <td>
+                <span class="badge" [ngClass]="getStatusBadgeClass(compte.active)">
+                  {{ getStatusText(compte.active) }}
+                </span>
+              </td>
+              <td>
+                <div class="btn-group">
+                  <button 
+                    class="btn btn-sm" 
+                    [ngClass]="compte.active ? 'btn-warn' : 'btn-success'"
+                    (click)="confirmToggleStatus(compte)"
+                    [title]="compte.active ? 'Désactiver le compte' : 'Activer le compte'"
+                  >
+                    <i class="fas" [ngClass]="compte.active ? 'fa-ban' : 'fa-check'"></i>
+                    <span class="btn-text">{{ compte.active ? 'Désactiver' : 'Activer' }}</span>
+                  </button>
+                  
+                  <button 
+                    class="btn btn-sm btn-view"
+                    [title]="'Voir les détails du compte'"
+                    (click)="viewCompteDetails(compte)"
+                  >
+                    <i class="fas fa-eye"></i>
+                    <span class="btn-text">Détails</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div *ngIf="!loading && totalPages > 1" class="pagination-controls">
+        <nav>
+          <ul class="pagination">
+            <li class="page-item" [class.disabled]="currentPage === 0">
+              <a class="page-link" (click)="changePage(currentPage - 1)">Précédent</a>
+            </li>
+            
+            <li *ngFor="let page of getPages()" class="page-item" [class.active]="page === currentPage">
+              <a class="page-link" (click)="changePage(page)">{{ page + 1 }}</a>
+            </li>
+            
+            <li class="page-item" [class.disabled]="currentPage === totalPages - 1">
+              <a class="page-link" (click)="changePage(currentPage + 1)">Suivant</a>
+            </li>
+          </ul>
+        </nav>
+        <div class="pagination-info">
+          Affichage de {{ (currentPage * pageSize) + 1 }} à {{ Math.min((currentPage + 1) * pageSize, totalElements) }} sur {{ totalElements }} comptes
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="showOperationModal" class="modal-backdrop show"></div>
+  <div *ngIf="showOperationModal" class="modal show d-block" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">
+            {{ operationType === 'ACTIVATE' ? 'Activer le compte' : 'Désactiver le compte' }}
+          </h5>
+          <button type="button" class="btn-close" (click)="closeOperationModal()"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal-body">
+          <p>
+            Êtes-vous sûr de vouloir 
+            <strong>{{ operationType === 'ACTIVATE' ? 'activer' : 'désactiver' }}</strong>
+            le compte <strong>{{ selectedCompte?.numeroTelephone }}</strong>
+            de <strong>{{ selectedCompte?.user?.prenom }} {{ selectedCompte?.user?.nom }}</strong> ?
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="closeOperationModal()">Annuler</button>
+          <button 
+            type="button" 
+            class="btn" 
+            [ngClass]="operationType === 'ACTIVATE' ? 'btn-success' : 'btn-warn'"
+            (click)="executeOperation()"
+          >
+            {{ operationType === 'ACTIVATE' ? 'Activer' : 'Désactiver' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

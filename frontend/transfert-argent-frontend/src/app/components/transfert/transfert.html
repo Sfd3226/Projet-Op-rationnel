@@ -1,0 +1,69 @@
+<!-- Fond nébuleuse -->
+<canvas id="nebula-bg" class="nebula-canvas"></canvas>
+
+<div class="center-wrap">
+  <div class="card transfert-card">
+    <div class="card-glow"></div>
+    
+    <!-- Header -->
+    <header class="card-head">
+      <h1 class="title">💸 Effectuer un transfert</h1>
+      <p class="subtitle">Transférez de l'argent rapidement et en toute sécurité</p>
+    </header>
+
+    <!-- Messages -->
+    <div class="alert alert-error" *ngIf="message && !message.includes('succès')">{{ message }}</div>
+    <div class="alert alert-success" *ngIf="message && message.includes('succès')">{{ message }}</div>
+
+    <!-- Formulaire -->
+    <form [formGroup]="transfertForm" (ngSubmit)="submit()" class="form">
+      <label class="field">
+        <span class="label-text">📱 Numéro du destinataire</span>
+        <input type="text" formControlName="telephoneDestinataire" placeholder="77 888 99 99" />
+        <small class="error" *ngIf="telephoneDestinataire?.invalid && (telephoneDestinataire?.touched || telephoneDestinataire?.dirty)">
+          <span *ngIf="telephoneDestinataire?.errors?.['required']">Numéro requis</span>
+          <span *ngIf="telephoneDestinataire?.errors?.['pattern']">Format invalide</span>
+        </small>
+      </label>
+
+      <label class="field">
+        <span class="label-text">💵 Montant à transférer (XOF)</span>
+        <input type="number" formControlName="montant" placeholder="100" />
+        <small class="error" *ngIf="montant?.invalid && (montant?.touched || montant?.dirty)">
+          <span *ngIf="montant?.errors?.['required']">Montant requis</span>
+          <span *ngIf="montant?.errors?.['min']">Minimum 100 XOF</span>
+          <span *ngIf="montant?.errors?.['max']">Maximum 1,000,000 XOF</span>
+        </small>
+      </label>
+
+      <!-- Calcul dynamique -->
+      <div class="calcul-details" *ngIf="montant?.value && montant?.valid">
+        <div class="detail-line">
+          <span>Montant transfert:</span>
+          <span>{{ montant?.value | number:'1.0-0' }} XOF</span>
+        </div>
+        <div class="detail-line">
+          <span>Frais (1%):</span>
+          <span>{{ frais | number:'1.0-0' }} XOF</span>
+        </div>
+        <div class="detail-line total">
+          <span>Total débité:</span>
+          <span>{{ total | number:'1.0-0' }} XOF</span>
+        </div>
+      </div>
+
+      <!-- Bouton -->
+      <div class="actions">
+        <button class="btn btn-primary" type="submit" [disabled]="loading || transfertForm.invalid">
+          <span *ngIf="!loading">🚀 Effectuer le transfert</span>
+          <span *ngIf="loading">⏳ Traitement en cours...</span>
+        </button>
+      </div>
+    </form>
+
+    <!-- Footer -->
+    <footer class="card-foot">
+      <a [routerLink]="['/dashboard']" class="link">← Retour au tableau de bord</a>
+    </footer>
+  </div>
+</div>

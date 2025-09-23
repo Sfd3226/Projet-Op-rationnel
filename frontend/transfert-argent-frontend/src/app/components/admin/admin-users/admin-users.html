@@ -1,0 +1,146 @@
+<div class="admin-users-container">
+  <div class="page-header">
+    <h1 class="page-title">Gestion des Utilisateurs</h1>
+    <p>Gérez les utilisateurs de votre plateforme.</p>
+  </div>
+
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="successMessage" class="alert alert-success">
+    {{ successMessage }}
+  </div>
+
+  <div class="card-panel">
+    <div class="card-header">
+      <div class="filters">
+        <div class="search-box">
+          <input 
+            type="text" 
+            [(ngModel)]="searchTerm" 
+            (input)="onSearchChange()" 
+            placeholder="Rechercher un utilisateur..."
+            class="form-control"
+          >
+        </div>
+        
+        <div class="filter-controls">
+          <select [(ngModel)]="selectedRole" (change)="onRoleChange()" class="form-select">
+            <option value="ALL">Tous les rôles</option>
+            <option value="ADMIN">Administrateur</option>
+            <option value="USER">Utilisateur</option>
+          </select>
+          
+          <select [(ngModel)]="selectedStatus" (change)="onStatusChange()" class="form-select">
+            <option value="ALL">Tous les statuts</option>
+            <option value="ACTIVE">Actif</option>
+            <option value="INACTIVE">Inactif</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-body">
+      <div *ngIf="loading" class="loading-state">
+        <div class="loading-spinner"></div>
+        <p>Chargement des utilisateurs...</p>
+      </div>
+
+      <div *ngIf="!loading && filteredUsers.length === 0" class="empty-state">
+        <i class="fas fa-users fa-3x"></i>
+        <h3>Aucun utilisateur trouvé</h3>
+        <p>Aucun utilisateur ne correspond à vos critères de recherche.</p>
+      </div>
+
+      <div *ngIf="!loading && filteredUsers.length > 0" class="table-responsive">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Nom & Prénom</th>
+              <th>Email</th>
+              <th>Téléphone</th>
+              <th>Rôle</th>
+              <th>Statut</th>
+              <th>Date d'inscription</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of filteredUsers">
+              <td>
+                <strong>{{ user.prenom }} {{ user.nom }}</strong>
+              </td>
+              <td>{{ user.email }}</td>
+              <td>{{ user.telephone }}</td>
+              <td>
+                <span class="badge" [ngClass]="getRoleBadgeClass(user.role)">
+                  {{ user.role }}
+                </span>
+                
+                <button 
+                  *ngIf="editingUserId !== user.id"
+                  class="btn btn-icon btn-edit"
+                  (click)="startEditRole(user)"
+                  title="Modifier le rôle"
+                >
+                  <i class="fas fa-edit"></i>
+                </button>
+                
+                <div *ngIf="editingUserId === user.id" class="role-edit">
+                  <select [(ngModel)]="newRole" class="form-select form-select-sm">
+                    <option value="USER">Utilisateur</option>
+                    <option value="ADMIN">Administrateur</option>
+                  </select>
+                  <button class="btn btn-icon btn-save" (click)="saveUserRole(user)">
+                    <i class="fas fa-check"></i>
+                  </button>
+                  <button class="btn btn-icon btn-cancel" (click)="cancelEdit()">
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
+              </td>
+              <td>
+                <span class="badge" [ngClass]="getStatusBadgeClass(user.enabled)">
+                  {{ getStatusText(user.enabled) }}
+                </span>
+              </td>
+              <td>{{ user.createdAt | date:'dd/MM/yyyy HH:mm' }}</td>
+              <td>
+                <button 
+                  class="btn" 
+                  [ngClass]="user.enabled ? 'btn-warn' : 'btn-success'"
+                  (click)="toggleUserStatus(user)"
+                >
+                  <i class="fas" [ngClass]="user.enabled ? 'fa-user-times' : 'fa-user-check'"></i>
+                  {{ user.enabled ? 'Désactiver' : 'Activer' }}
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div *ngIf="!loading && totalPages > 1" class="pagination-controls">
+        <nav>
+          <ul class="pagination">
+            <li class="page-item" [class.disabled]="currentPage === 0">
+              <a class="page-link" (click)="changePage(currentPage - 1)">Précédent</a>
+            </li>
+            
+            <li *ngFor="let page of getPages()" class="page-item" [class.active]="page === currentPage">
+              <a class="page-link" (click)="changePage(page)">{{ page + 1 }}</a>
+            </li>
+            
+            <li class="page-item" [class.disabled]="currentPage === totalPages - 1">
+              <a class="page-link" (click)="changePage(currentPage + 1)">Suivant</a>
+            </li>
+          </ul>
+        </nav>
+        <div class="pagination-info">
+          Affichage de {{ (currentPage * pageSize) + 1 }} à {{ Math.min((currentPage + 1) * pageSize, totalElements) }} sur {{ totalElements }} utilisateurs
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,63 @@
+<div class="admin-layout-container">
+  <aside class="admin-sidebar" [class.collapsed]="isSidebarCollapsed">
+    <div class="sidebar-header">
+      <h2 *ngIf="!isSidebarCollapsed">Admin Portal</h2>
+      <button class="toggle-btn" (click)="toggleSidebar()">
+        <span class="icon">{{ isSidebarCollapsed ? '▶' : '◀' }}</span>
+      </button>
+    </div>
+    
+    <nav class="sidebar-nav">
+      <a routerLink="/admin/dashboard" routerLinkActive="active" class="nav-link">
+        <span class="nav-icon">📊</span>
+        <span *ngIf="!isSidebarCollapsed">Tableau de bord</span>
+      </a>
+      <a routerLink="/admin/users" routerLinkActive="active" class="nav-link">
+        <span class="nav-icon">👥</span>
+        <span *ngIf="!isSidebarCollapsed">Utilisateurs</span>
+      </a>
+      <a routerLink="/admin/comptes" routerLinkActive="active" class="nav-link">
+        <span class="nav-icon">💼</span>
+        <span *ngIf="!isSidebarCollapsed">Comptes</span>
+      </a>
+      <a routerLink="/admin/transactions" routerLinkActive="active" class="nav-link">
+        <span class="nav-icon">🔄</span>
+        <span *ngIf="!isSidebarCollapsed">Transactions</span>
+      </a>
+
+      <a routerLink="/admin/depot" routerLinkActive="active" class="nav-link">
+  <span class="nav-icon">💵</span>
+  <span *ngIf="!isSidebarCollapsed">Dépôt</span>
+</a>
+
+<a routerLink="/admin/retrait" routerLinkActive="active" class="nav-link">
+  <span class="nav-icon">🏧</span>
+  <span *ngIf="!isSidebarCollapsed">Retrait</span>
+</a>
+
+    </nav>
+
+    <div class="sidebar-footer">
+      <a routerLink="/dashboard" class="nav-link">
+        <span class="nav-icon">🏠</span>
+        <span *ngIf="!isSidebarCollapsed">Retour à l'application</span>
+      </a>
+      <a (click)="logout()" class="nav-link logout-link">
+        <span class="nav-icon">🚪</span>
+        <span *ngIf="!isSidebarCollapsed">Déconnexion</span>
+      </a>
+    </div>
+  </aside>
+
+  <main class="admin-main-content" [class.expanded]="isSidebarCollapsed">
+    <div class="main-header">
+      <h1 class="page-title">
+        <span class="page-icon">🛡️</span>
+        Panneau d'Administration
+      </h1>
+    </div>
+    <div class="content-wrapper">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+</div>

@@ -1,0 +1,76 @@
+<div class="admin-dashboard">
+
+  <h1 class="page-title">📊 Tableau de Bord Administrateur</h1>
+
+  <div *ngIf="loading" class="loading-message">
+    <div class="spinner"></div>
+    Chargement des données...
+  </div>
+  
+  <div *ngIf="errorMessage" class="error-alert">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="!loading && statistics" class="stats-grid">
+
+    <div class="stat-card">
+      <div class="stat-icon-container user">
+        <span class="stat-icon">👥</span>
+      </div>
+      <div class="stat-content">
+        <h3>{{ formatNumber(statistics.totalUsers) }}</h3>
+        <p>Utilisateurs Totaux</p>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon-container comptes">
+        <span class="stat-icon">💼</span>
+      </div>
+      <div class="stat-content">
+        <h3>{{ formatNumber(statistics.totalComptes) }}</h3>
+        <p>Comptes Créés</p>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon-container tx">
+        <span class="stat-icon">🔄</span>
+      </div>
+      <div class="stat-content">
+        <h3>{{ formatNumber(statistics.totalTransactions) }}</h3>
+        <p>Transactions</p>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon-container solde">
+        <span class="stat-icon">💰</span>
+      </div>
+      <div class="stat-content">
+        <h3>{{ formatCurrency(statistics.totalSolde || 0) }}</h3>
+        <p>Solde Total</p>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon-container actifs">
+        <span class="stat-icon">✅</span>
+      </div>
+      <div class="stat-content">
+        <h3>{{ formatNumber(statistics.activeUsers) }}</h3>
+        <p>Utilisateurs Actifs</p>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon-container comptes-actifs">
+        <span class="stat-icon">✔️</span>
+      </div>
+      <div class="stat-content">
+        <h3>{{ formatNumber(statistics.activeComptes) }}</h3>
+        <p>Comptes Actifs</p>
+      </div>
+    </div>
+  </div>
+</div>

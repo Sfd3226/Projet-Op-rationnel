@@ -1,0 +1,51 @@
+<div class="layout-container">
+  <aside class="sidebar" [class.sidebar-closed]="!isSidebarOpen">
+    <div class="sidebar-header">
+      <h1 class="sidebar-title" *ngIf="isSidebarOpen">Mon Application</h1>
+      <p class="sidebar-subtitle" *ngIf="isSidebarOpen">Navigue facilement</p>
+      <button class="sidebar-toggle" (click)="toggleSidebar()">
+        {{ isSidebarOpen ? '◀' : '▶' }}
+      </button>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a routerLink="/dashboard" routerLinkActive="active" class="nav-link">
+        <span class="nav-icon">📊</span>
+        <span class="nav-text" *ngIf="isSidebarOpen">Dashboard</span>
+      </a>
+      <a routerLink="/comptes" routerLinkActive="active" class="nav-link">
+        <span class="nav-icon">🏦</span>
+        <span class="nav-text" *ngIf="isSidebarOpen">Comptes</span>
+      </a>
+      <a routerLink="/transfert" routerLinkActive="active" class="nav-link">
+        <span class="nav-icon">💸</span>
+        <span class="nav-text" *ngIf="isSidebarOpen">Transfert</span>
+      </a>
+      <a routerLink="/historique" routerLinkActive="active" class="nav-link">
+        <span class="nav-icon">📋</span>
+        <span class="nav-text" *ngIf="isSidebarOpen">Historique</span>
+      </a>
+      <a routerLink="/profile" routerLinkActive="active" class="nav-link">
+        <span class="nav-icon">👤</span>
+        <span class="nav-text" *ngIf="isSidebarOpen">Profil</span>
+      </a>
+      <a *ngIf="isAdmin" routerLink="/admin/dashboard" routerLinkActive="active" class="nav-link admin-link">
+        <span class="nav-icon">⚙️</span>
+        <span class="nav-text" *ngIf="isSidebarOpen">Administration</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <a (click)="logout()" class="nav-link logout-link">
+        <span class="nav-icon">🚪</span>
+        <span class="nav-text" *ngIf="isSidebarOpen">Déconnexion</span>
+      </a>
+    </div>
+  </aside>
+
+  <main class="main-content" [class.content-expanded]="!isSidebarOpen">
+    <div class="content-wrapper">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+</div>
