@@ -10,7 +10,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map; // ✅ IMPORT AJOUTÉ
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/transactions")
@@ -60,7 +60,6 @@ public class TransactionController {
         }
     }
 
-    // ✅ ENDPOINT POUR TÉLÉCHARGER UN REÇU (PDF)
     @GetMapping("/{id}/receipt")
     public ResponseEntity<byte[]> downloadReceipt(@PathVariable Long id, HttpServletRequest request) {
         try {
@@ -81,21 +80,22 @@ public class TransactionController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
-    // ✅ ENDPOINT ADMIN POUR ANNULER UNE TRANSACTION
+
+    // MODIFICATION ICI POUR RENVOYER UNE RÉPONSE JSON
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/admin/{id}/annuler")
-    public ResponseEntity<String> annulerTransaction(@PathVariable Long id) {
+    public ResponseEntity<Map<String, String>> annulerTransaction(@PathVariable Long id) {
         try {
             transactionService.annulerTransaction(id);
-            return ResponseEntity.ok("Transaction annulée avec succès");
+            // Retourne un objet Map qui sera sérialisé en JSON
+            return ResponseEntity.ok(Map.of("message", "Transaction annulée avec succès"));
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("error", e.getMessage()));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erreur interne");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "Erreur interne"));
         }
     }
 
-    // ✅ ENDPOINT POUR OBtenir une transaction spécifique
     @GetMapping("/{id}")
     public ResponseEntity<TransactionDTO> getTransaction(@PathVariable Long id, HttpServletRequest request) {
         try {
@@ -109,7 +109,6 @@ public class TransactionController {
         }
     }
 
-    // ✅ ENDPOINT POUR OBTENIR LES INFORMATIONS DU REÇU
     @GetMapping("/{id}/receipt-info")
     public ResponseEntity<Map<String, Object>> getReceiptInfo(@PathVariable Long id, HttpServletRequest request) {
         try {
@@ -129,7 +128,6 @@ public class TransactionController {
         }
     }
 
-    // ✅ MÉTHODE POUR EXTRAIRE LE TÉLÉPHONE DU TOKEN
     private String extractTelephoneFromRequest(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
         if (bearerToken != null && bearerToken.startsWith("Bearer ")) {

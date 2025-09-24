@@ -16,7 +16,7 @@ import java.io.IOException;
 public class FileController {
 
     // Nouveau chemin absolu vers ton dossier uploads
-    private final Path uploadDir = Paths.get("C:/laragon/www/Projet-Operationnel/backend/transfert-argent/uploads");
+    private final Path uploadDir = Paths.get("C:/laragon/www/Projet-Operationnel/backend/uploads");
 
     @GetMapping("/{filename:.+}")
     public ResponseEntity<Resource> getFile(@PathVariable String filename) {
